@@ -1,0 +1,13 @@
+#:schema node_modules/wrangler/config-schema.json
+name = "email2push"
+main = "src/index.js"
+compatibility_date = "2024-07-18"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = false
+
+[vars]
+DEBUG = false
+ALLOWED_SENDERS = ["@notify.cloudflare.com"]
+FORWARD_TO = "ramesaliyev@gmail.com"
+PUSHOVER_URL = "https://api.pushover.net/1/messages.json"
+PUSHOVER_TTL = 300
