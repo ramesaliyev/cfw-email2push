@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "email2push",
+  "main": "src/index.js",
+  "compatibility_date": "2026-11-10",
+  // Email-only worker: invoked by Email Routing, no public URL.
+  "workers_dev": false,
+  "observability": {
+    "enabled": true,
+  },
+  "vars": {
+    "DEBUG": false,
+    // "@domain" allows the domain and its subdomains; "user@domain" allows that exact address.
+    "ALLOWED_SENDERS": ["@notify.cloudflare.com"],
+    "PUSHOVER_URL": "https://api.pushover.net/1/messages.json",
+    "PUSHOVER_TTL": 300,
+  },
+  // Set with `wrangler secret put <NAME>`; listed for type generation and local dev validation.
+  "secrets": {
+    "required": ["FORWARD_TO", "PUSHOVER_TOKEN", "PUSHOVER_USER"],
+  },
+}
