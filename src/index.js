@@ -40,7 +40,20 @@ function send_push_notification(code, env) {
 }
 
 /**
- * Returns a logger function based on the DEBUG environment variable. 
+ * Checks whether the sender's domain matches an allowed domain or one of its
+ * subdomains (e.g. "@notify.cloudflare.com" also allows
+ * "x@cf-bounce.notify.cloudflare.com").
+ */
+function is_allowed_sender(from, allowed_senders) {
+  const domain = from.split('@').pop().toLowerCase();
+  return allowed_senders.some(sender => {
+    const allowed = sender.replace(/^@/, '').toLowerCase();
+    return domain === allowed || domain.endsWith('.' + allowed);
+  });
+}
+
+/**
+ * Returns a logger function based on the DEBUG environment variable.
  */
 function get_logger(env) {
   return env.DEBUG ? console.log : () => {};
@@ -54,11 +67,11 @@ export default {
     const log = get_logger(env);
     const {ALLOWED_SENDERS, FORWARD_TO} = env;
 
-    log(env);
     log("Received email from:", message.from);
+    log("Headers:", JSON.stringify([...message.headers]));
 
     // Check if the sender is allowed.
-    if (!ALLOWED_SENDERS.some(sender => message.from.endsWith(sender))) {
+    if (!is_allowed_sender(message.from, ALLOWED_SENDERS)) {
       message.setReject("Sender is not allowed.");  
       log("Email is from a disallowed sender.");
       return;
