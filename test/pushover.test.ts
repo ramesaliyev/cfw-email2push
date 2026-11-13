@@ -2,7 +2,6 @@ import {afterEach, describe, expect, it, vi} from 'vitest';
 import {sendPushNotification} from '../src/pushover';
 
 const env = {
-  DEBUG: false,
   PUSHOVER_URL: 'https://push.example/messages.json',
   PUSHOVER_TOKEN: 'tok',
   PUSHOVER_USER: 'usr',
