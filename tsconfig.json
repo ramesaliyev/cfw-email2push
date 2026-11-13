@@ -15,11 +15,7 @@
     "verbatimModuleSyntax": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "skipLibCheck": true,
-
-    // Temporary: lets the existing src/index.js live alongside TS until it is ported.
-    "allowJs": true,
-    "checkJs": false
+    "skipLibCheck": true
   },
   "include": ["worker-configuration.d.ts", "src"]
 }
